@@ -24,7 +24,6 @@ int main(){
     printf("The %luth fibonacci term is %lu using the naive method.\n", n, fiboNaive(n));
     clock_t end_naive = clock();
     
-    
     double time_naive = ((double)(end_naive - start_naive) / CLOCKS_PER_SEC) * 1000;
     double time_dp = ((double)(end_dp - start_dp) / CLOCKS_PER_SEC) * 1000;
     
