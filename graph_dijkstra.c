@@ -1,4 +1,5 @@
-/* I was feeling lazy, copied from internet*/ 
+/* I was feeling lazy, copied from internet will implement my own solution soon*/ 
+
 #include<stdio.h>
 #include<conio.h>
 #define INFINITY 9999

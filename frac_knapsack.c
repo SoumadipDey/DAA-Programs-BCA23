@@ -32,9 +32,10 @@ void printTabular(int items[],int weights[],int profit[],float ratio[],float res
 int main(){
     int n,capacity,total_value = 0;
     printf("Enter the number of items and capacity of knapsack: ");
-    scanf("%d %d",&n,&capacity);
+    scanf("%d %d",&n, &capacity);
     int items[n],weights[n],profit[n];
     float result[n],ratio[n];
+    
     //Taking inputs and initializing
     printf("Enter the weight and profit of %d items:\n",n);
     for (int i = 0; i < n; i++){
@@ -43,6 +44,7 @@ int main(){
         items[i] = i + 1;
         result[i] = 0;
     }
+    
     customSort(items,weights,profit,ratio,n);
     int r_capacity = capacity;
     for (int i = 0; i < n; i++){
@@ -60,6 +62,7 @@ int main(){
             break;
         }
     }
+    
     printf("The Solution for the fractional Knapsack Problem: ");
     printTabular(items,weights,profit,ratio,result,n);
     printf("\nProfit of solution: %d\n",total_value);
