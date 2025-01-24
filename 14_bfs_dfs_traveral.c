@@ -18,36 +18,37 @@ void DFS(struct List** adjList,int V){
         if (visited[start] != 1){
             printf("DFS Traversal of Component %d: ", counter);
             printf("%c --> ", start + 'A');
-            visited[start] = 1; // Marl the start node as visited
+            visited[start] = 1; // Mark the start node as visited
             DFSTraverse(adjList, start, visited);
             printf("End\n");
             counter++;
         }
     }
 }
-/* 
+
 void BFS(struct List** adjList, int V){
     int visited[V], front, rear, counter = 1;
-    struct Node* queue[V];
+    int queue[V];
+    for (int i = 0; i < V; i++) {visited[i] = 0;} // Initialize all nodes unvisited
     for (int start = 0; start < V; start++){
-        if (visited[start] != 1){
-            front = rear = -1;
-            printf("BFS Traversal of Component %d: ", counter);
-            printf("%c --> ", start + 'A');
-            visited[start] = 1; // Mark the start node as visited
+        if (!visited[start]){
             front = rear = 0;
-            queue[rear] = adjList[start]->head;
-            while(front <= rear){
-                struct Node* curr = queue[front];
-                if(visited[queue[front]->vertex - 'A'] != 1){
-                    visited[curr->vertex - 'A'] = 1;
-                    front++;
-                    printf("%c -->", curr->vertex);
-                    while (curr != NULL){
-                        rear++;
-                        queue[rear] = curr;
-                        curr = curr->next;
-                    }   
+            queue[rear] = start;
+            visited[start] = 1; // Mark the start node as visited
+            printf("BFS Traversal of Component %d: ", counter);
+            
+            while (front <= rear) {
+                int currIndex = queue[front++]; // Dequeue
+                printf("%c --> ", currIndex + 'A');
+
+                struct Node* curr = adjList[currIndex]->head;
+                while (curr) {
+                    int neighborIndex = curr->vertex - 'A';
+                    if (!visited[neighborIndex]) { 
+                        visited[neighborIndex] = 1;  
+                        queue[++rear] = neighborIndex; // Enqueue
+                    }
+                    curr = curr->next;
                 }
             }
             printf("End\n");
@@ -55,7 +56,7 @@ void BFS(struct List** adjList, int V){
         }
     }
 }
-*/
+
 int main(){
     int V,E;
     printf("Enter the Number of Vertices in the Graph: ");
