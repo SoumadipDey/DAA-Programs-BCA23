@@ -31,7 +31,6 @@ int main(){
     printf("Enter the Number of Edges in the Graph: ");
     scanf("%d", &E);
     struct List** adjList = createGraph(V,E);
-    printf("\nDisplaying the Adjacency List:\n");
-    displayAdjList(adjList, V);
+    printf("The DFS of the given graph is as follows: \n");
     DFS(adjList,V);
 }
