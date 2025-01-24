@@ -38,13 +38,16 @@ void BFS(struct List** adjList, int V){
             printf("BFS Traversal of Component %d: ", counter);
             
             while (front <= rear) {
-                int currIndex = queue[front++]; // Dequeue
+                int currIndex = queue[front++]; // Dequeue the start node
                 printf("%c --> ", currIndex + 'A');
 
-                struct Node* curr = adjList[currIndex]->head;
-                while (curr) {
+                // Check the first neighbour of the start node
+                struct Node* curr = adjList[currIndex]->head; 
+                while (curr) { // Add all neighbours of the start node to the queue
                     int neighborIndex = curr->vertex - 'A';
-                    if (!visited[neighborIndex]) { 
+                    if (!visited[neighborIndex]) {
+
+                        // Premark the neighbours as visited to avoid redundancy in queue
                         visited[neighborIndex] = 1;  
                         queue[++rear] = neighborIndex; // Enqueue
                     }
