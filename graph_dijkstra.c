@@ -1,94 +1,83 @@
-/* I was feeling lazy, copied from internet will implement my own solution soon*/ 
+#include "graph.c"
+#define INFINITY __INT_MAX__
 
-#include<stdio.h>
-#include<conio.h>
-#define INFINITY 9999
-#define MAX 10
+void printPath(){
 
-void dijkstra(int G[MAX][MAX],int n,int startnode);
-
-int main()
-{
-	int G[MAX][MAX],i,j,n,u;
-	printf("Enter no. of vertices:");
-	scanf("%d",&n);
-	printf("\nEnter the adjacency matrix:\n");
-	
-	for(i=0;i<n;i++)
-		for(j=0;j<n;j++)
-			scanf("%d",&G[i][j]);
-	
-	printf("\nEnter the starting node:");
-	scanf("%d",&u);
-	dijkstra(G,n,u);
-	
-	return 0;
 }
 
-void dijkstra(int G[MAX][MAX],int n,int startnode)
-{
-
-	int cost[MAX][MAX],distance[MAX],pred[MAX];
-	int visited[MAX],count,mindistance,nextnode,i,j;
-	
-	//pred[] stores the predecessor of each node
-	//count gives the number of nodes seen so far
-	//create the cost matrix
-	for(i=0;i<n;i++)
-		for(j=0;j<n;j++)
-			if(G[i][j]==0)
-				cost[i][j]=INFINITY;
-			else
-				cost[i][j]=G[i][j];
-	
-	//initialize pred[],distance[] and visited[]
-	for(i=0;i<n;i++)
-	{
-		distance[i]=cost[startnode][i];
-		pred[i]=startnode;
-		visited[i]=0;
+int edgeCost(struct List** adjList, int u, int v){
+	int cost = INFINITY;
+	struct Node* curr = adjList[u]->head;
+	while (curr){
+		if(curr->vertex == 'A' + v) {
+			cost = curr->weight;
+			break;
+		} 
+		curr = curr->next;
 	}
-	
-	distance[startnode]=0;
-	visited[startnode]=1;
-	count=1;
-	
-	while(count<n-1)
-	{
-		mindistance=INFINITY;
-		
-		//nextnode gives the node at minimum distance
-		for(i=0;i<n;i++)
-			if(distance[i]<mindistance&&!visited[i])
-			{
-				mindistance=distance[i];
-				nextnode=i;
+	return cost;
+}
+
+int findMinimum(int dist[], int visited[], int V){
+	int min_index = -1;
+	int min_dist = INFINITY;
+	for (int i = 0; i < V; i++){
+		if((dist[i] < min_dist) && (!visited[i])){
+			min_dist = dist[i];
+			min_index = i;
+		}
+	}
+	return min_index;
+}
+
+void dijkstraPath(struct List** adjList, int start, int goal, int V){
+	int dist[V], visited[V], predecessor[V];
+	for (int i = 0; i < V; i++){
+		dist[i] = INFINITY;
+		visited[i] = 0;
+		predecessor[i] = -1;
+	}
+	dist[start] = 0;
+	//Populating the distances of the nodes connected to the start node.
+	struct Node* curr = adjList[start]->head; 
+	while (curr){
+		dist[curr->vertex - 'A'] = curr->weight;	
+		curr = curr->next;
+	}
+	struct Node* curr_neighbour; 
+	while (visited[goal] != 1){ //Loop untill the goal node becomes visited;
+		// Find the node having the minimum distance from the start node which is unvisited.
+		int curr_min = findMinimum(dist, visited,V);
+		// If no such node exists that means all viable nodes are visited. Break out of loop.
+		if (curr_min == -1) break;
+		visited[curr_min] = 1;
+		// Else perform relaxation on the current neighbours
+		curr_neighbour = adjList[curr_min]->head;
+		// Loop through adjacent unvisited nodes
+		while(curr_neighbour){ 
+			int neighbour_index = curr_neighbour->vertex - 'A';
+			int new_cost = dist[curr_min] + edgeCost(adjList, curr_min, neighbour_index);
+			if((new_cost < dist[neighbour_index]) && (!visited[curr_neighbour->vertex - 'A'])){ 
+				// Perform relaxation on the adjacent nodes
+				dist[neighbour_index] = new_cost;
+				predecessor[neighbour_index] = curr_min;
 			}
-			
-			//check if a better path exists through nextnode			
-			visited[nextnode]=1;
-			for(i=0;i<n;i++)
-				if(!visited[i])
-					if(mindistance+cost[nextnode][i]<distance[i])
-					{
-						distance[i]=mindistance+cost[nextnode][i];
-						pred[i]=nextnode;
-					}
-		count++;
+			curr_neighbour = curr_neighbour->next;
+		}
 	}
+}
 
-	//print the path and distance of each node
-	for(i=0;i<n;i++)
-		if(i!=startnode)
-		{
-			printf("\nDistance of node%d=%d",i,distance[i]);
-			printf("\nPath=%d",i);
-			
-			j=i;
-			do
-			{
-				j=pred[j];
-				printf("<-%d",j);
-			}while(j!=startnode);
-	}
+int main(){
+	int V,E;
+	char start, goal;
+    printf("Enter the Number of Vertices in the Graph: ");
+    scanf("%d", &V);
+    printf("Enter the Number of Edges in the Graph: ");
+    scanf("%d", &E);
+    struct List** adjList = createGraph(V,E);
+	printf("Enter the Start Node and the Goal node: ");
+	scanf("%c %c",&start, &goal);
+	printf("On Applying Dijkstra's Algorithm:\n");
+	dijkstraPath(adjList, start - 'A', goal - 'A', V);
+	return 0;
 }
