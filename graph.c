@@ -60,7 +60,7 @@ struct List** createGraph(int V, int E){
     for (int i = 0; i < E; i++) {
         printf("Enter Src and Dst and Weight of Edge %d: ", i + 1);
         getchar();  // To consume newline character left by previous scanf
-        scanf("%c %c", &src, &dst, &weight);
+        scanf("%c %c %d", &src, &dst, &weight);
         createEdge(adjList, src - 'A', dst - 'A', weight, graphtype);
     }
     return adjList;
