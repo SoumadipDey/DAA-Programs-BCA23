@@ -28,7 +28,11 @@ struct Edge findMinEdge(struct List** adjList, int V){
 }
 
 void primsMST(struct List** adjList, int V){
-    int visited[V], predecessor[V];
+    int visited[V];
+    for (int i = 0; i < V; i++){
+        visited[i] = 0;
+    }
+    struct Edge start = findMinEdge(adjList, V);
 
 }
 
