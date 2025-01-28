@@ -19,6 +19,6 @@ The following programs are available:
 16. ~~Matrix Chain Multiplication~~
 17. ~~Prim's Minimum Spanning tree.~~
 18. ~~Kruskal's Minimum Spanning tree.~~
-19. ~~Dijkstra's Shortest Path~~
+19. Dijkstra's Shortest Path
 
 > More Programs Coming Soon
