@@ -17,7 +17,7 @@ The following programs are available:
 14. DFS & BFS
 15. Fibonacci with DP
 16. ~~Matrix Chain Multiplication~~
-17. ~~Prim's Minimum Spanning tree.~~
+17. Prim's Minimum Spanning tree.
 18. ~~Kruskal's Minimum Spanning tree.~~
 19. Dijkstra's Shortest Path
 
