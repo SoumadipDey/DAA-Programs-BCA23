@@ -8,6 +8,7 @@ struct Node {
 struct List {
     struct Node* head;
     struct Node* tail;
+    int type;
 };
 void displayAdjList(struct List** adjList, int V) {
     for (int i = 0; i < V; i++) {
@@ -55,6 +56,7 @@ struct List** createGraph(int V, int E){
     for (int i = 0; i < V; i++) {
         adjList[i] = (struct List*)malloc(sizeof(struct List));
         adjList[i]->head = NULL;
+        adjList[i]->type = graphtype;
     }
     // Take input of Edges
     for (int i = 0; i < E; i++) {
