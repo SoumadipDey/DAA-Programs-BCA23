@@ -1,14 +1,15 @@
 #include <stdio.h>
-int mid;
 int interpSearch(int arr[],int high, int low, int key){
+	int mid;
 	if(low <= high){
 		mid = low + (high-low)*((float)(key - arr[low])/(arr[high] - arr[low]));
+		printf("Mid = %d\n", mid);
 		if(arr[mid] == key){
 			return mid;
 		} else if(key > arr[mid]) {
-			return interpSearch(arr,high,mid+1,key);
+			return interpSearch(arr, mid + 1, high, key);
 		} else {
-			return interpSearch(arr,mid-1,low,key);
+			return interpSearch(arr, low, mid-1,key);
 		}
 	}
 	return -1;
