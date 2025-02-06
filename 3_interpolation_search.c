@@ -1,9 +1,8 @@
 #include <stdio.h>
-int interpSearch(int arr[],int high, int low, int key){
+int interpSearch(int arr[], int low, int high, int key){
 	int mid;
 	if(low <= high){
 		mid = low + (high-low)*((float)(key - arr[low])/(arr[high] - arr[low]));
-		printf("Mid = %d\n", mid);
 		if(arr[mid] == key){
 			return mid;
 		} else if(key > arr[mid]) {
@@ -25,7 +24,7 @@ int main(){
 	}
 	printf("Enter the search/key element: ");
 	scanf("%d",&key);
-	res = interpSearch(arr,n-1,0,key);
+	res = interpSearch(arr,0,n-1,key);
 	if(res != -1){
 		printf("The element was found at index: %d\n",res);
 	} else {
