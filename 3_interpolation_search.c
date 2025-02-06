@@ -1,7 +1,7 @@
 #include <stdio.h>
 int interpSearch(int arr[], int low, int high, int key){
 	int mid;
-	if(low <= high){
+	if(low <= high && key >= arr[low] && key <= arr[high]){
 		mid = low + (high-low)*((float)(key - arr[low])/(arr[high] - arr[low]));
 		if(arr[mid] == key){
 			return mid;
