@@ -1,54 +1,70 @@
 #include <stdio.h>
-void swap(int *a, int *b){
-    int temp = *a;
+struct Job{
+    int jId;
+    int jProfit;
+    int jDeadline;
+};
+void swap(struct Job* a, struct Job* b){
+    struct Job temp = *a;
     *a = *b;
     *b = temp;
 }
-void customSort(int jobs[], int profit[], int deadline[], int n){
-    //Sorting based on deadlines ascending
-    float temp;
-    int i,min;
-	for(i = 0; i < n; i++){
-		min = i;
+void jobSort(struct Job jobs[], int n){
+    int max;
+	for(int i = 0; i < n - 1; i++){
+		max = i;
 		for(int j = i + 1; j < n; j++){
-			if(profit[j] > profit[min]){
-				min = j;	
+			if(jobs[j].jProfit > jobs[max].jProfit){
+				max = j;	
 			}
 		}
-        swap(&deadline[i],&deadline[min]);
-        swap(&profit[i],&profit[min]);
-        swap(&jobs[i],&jobs[min]);
+        swap(&jobs[i],&jobs[max]);
 	}
 }
-void printTabular(int jobs[],int profit[],int deadline[],int status[],int n){
-    printf("\nJob\tProfit\tDeadline\tStatus\n");
+int sequenceJobs(struct Job jobs[], int timeslots[], int n, int k){
+    int totalProfit = 0;
+    // Iterate through the sorted list of jobs
     for (int i = 0; i < n; i++){
-        printf("%4d \t%4d \t%4d \t\t%4d\n",jobs[i],profit[i],deadline[i],status[i]);
-    }
-}
-int main(){
-    int n, total_profit = 0;
-    printf("Enter the total number of jobs: ");
-    scanf("%d",&n);
-    int max_deadline = n;
-    int jobs[n],profit[n],deadline[n],status[n];
-    printf("Enter the profit and deadline: \n");
-    for (int i = 0; i < n; i++){
-        scanf("%d %d",&profit[i],&deadline[i]);
-        jobs[i] = i + 1;
-        status[i] = 0;
-    }
-    customSort(jobs,profit,deadline,n);
-    int curr = 1;
-    for (int i = 0; i < n; i++){
-        if(deadline[i] >= curr){
-            total_profit += profit[i];
-            status[i] = 1;
-            curr++;
+        //Find if there is a timeslot available before the deadline.
+        int deadline = jobs[i].jDeadline;
+        for (int j = deadline; j >= 0 ; j--){
+            if(j < k && timeslots[j] == -1){
+                totalProfit += jobs[i].jProfit;
+                timeslots[j] = jobs[i].jId;
+                break;
+            }   
         }
     }
-    printf("The solution of the job sequencing problem: \n");
-    printTabular(jobs,profit,deadline,status,n);
-    printf("Total profit of solution: %d\n",total_profit);
+    return totalProfit;
+}
+int main(){
+    int n, temp;
+    printf("Enter the number of jobs: ");
+    scanf("%d", &n);
+    struct Job jobs[n];
+    printf("Enter Job ID, Profit, and Deadline for each job:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Job %d: ", i + 1);
+        scanf("%d %d %d", &jobs[i].jId, &jobs[i].jProfit, &temp);
+        jobs[i].jDeadline = temp - 1;
+    }
+    int maxDeadline = 0;
+    for (int i = 0; i < n; i++) {
+        if (jobs[i].jDeadline > maxDeadline)
+            maxDeadline = jobs[i].jDeadline;
+    }
+    int timeslots[maxDeadline + 1];
+    for (int i = 0; i < maxDeadline + 1; i++) {
+        timeslots[i] = -1;
+    }
+    jobSort(jobs, n);
+    int maxProfit = sequenceJobs(jobs, timeslots, n, maxDeadline + 1);
+    printf("Scheduled Jobs: ");
+    for (int i = 0; i < maxDeadline + 1; i++) {
+        if (timeslots[i] != -1) {
+            printf("J%d ", timeslots[i]);
+        }
+    }
+    printf("\nTotal Profit: %d\n", maxProfit);
     return 0;
 }
