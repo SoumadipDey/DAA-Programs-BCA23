@@ -1,70 +1,75 @@
 #include <stdio.h>
-void swap(int *a, int *b){
-    int temp = *a;
+struct Item{
+    int id;
+    int  itemWeight;
+    int itemValue;
+    float valueByWeight;
+    float status;
+};
+void swap(struct Item* a, struct Item* b){
+    struct Item temp = *a;
     *a = *b;
     *b = temp;
 }
-void customSort(int items[], int weights[], int profit[], float ratio[], int n){
-    // Sort according to ratio desc
-    float temp;
-    int i,max;
-	for(i = 0; i < n; i++){
+void itemSort(struct Item items[], int n){
+    int max;
+	for(int i = 0; i < n - 1; i++){
 		max = i;
 		for(int j = i + 1; j < n; j++){
-			if(ratio[j] > ratio[max]){
+			if(items[j].valueByWeight > items[max].valueByWeight){
 				max = j;	
 			}
 		}
-		temp = ratio[i];
-		ratio[i] = ratio[max];
-		ratio[max] = temp;
         swap(&items[i],&items[max]);
-        swap(&weights[i],&weights[max]);
-        swap(&profit[i],&profit[max]);
 	}
 }
-void printTabular(int items[],int weights[],int profit[],float ratio[],float result[],int n){
-    printf("\nItem\tWeight\tProfit\tRatio\tStatus\n");
+float fractionalKnapsack(struct Item items[], int n, int max_capacity){
+    int capacity = max_capacity, i = 0;
+    float totalValue = 0;
+    while (i < n && capacity > 0){
+        if(capacity - items[i].itemWeight >= 0){ // No fraction needed
+            capacity -= items[i].itemWeight;
+            items[i].status = 1.0;
+            totalValue += items[i].status * items[i].itemValue;
+        } else {
+            if(capacity < items[i].itemWeight){ // Fraction needed
+                items[i].status = (float) capacity / items[i].itemWeight;
+                capacity = 0;
+                totalValue += items[i].status * items[i].itemValue;
+            }
+        }
+        i++;
+    }
+    return totalValue;
+}
+void printTabular(struct Item items[] , int n){
+    printf("\nItem\tWeight\tValue\tRatio\tStatus\n");
     for (int i = 0; i < n; i++){
-        printf("%4d \t%4d \t%4d \t%4.2f \t%4.2f\n",items[i],weights[i],profit[i],ratio[i],result[i]);
+        struct Item curr = items[i];
+        printf("Item %d \t%4d \t%4d \t%2.2f \t%2.2f\n", curr.id, curr.itemWeight, curr.itemValue, curr.valueByWeight, curr.status);
     }
 }
 int main(){
-    int n,capacity,total_value = 0;
+    int n, capacity;
     printf("Enter the number of items and capacity of knapsack: ");
     scanf("%d %d",&n, &capacity);
-    int items[n],weights[n],profit[n];
-    float result[n],ratio[n];
-    
+    struct Item items[n];
+
     //Taking inputs and initializing
-    printf("Enter the weight and profit of %d items:\n",n);
+    printf("Enter the weight and value of %d items:\n",n);
     for (int i = 0; i < n; i++){
-        scanf("%d %d",&weights[i],&profit[i]);
-        ratio[i] = (float) profit[i] / weights[i];
-        items[i] = i + 1;
-        result[i] = 0;
+        printf("Item %d :", i + 1);
+        scanf("%d %d", &items[i].itemWeight, &items[i].itemValue);
+        items[i].valueByWeight = (float) items[i].itemValue / items[i].itemWeight;
+        items[i].id = i + 1;
+        items[i].status = 0;
     }
     
-    customSort(items,weights,profit,ratio,n);
-    int r_capacity = capacity;
-    for (int i = 0; i < n; i++){
-        if(r_capacity > 0){
-            if(weights[i] <= r_capacity){
-                total_value += profit[i];
-                r_capacity -= weights[i];
-                result[i] = 1.0;
-            } else if(weights[i] > r_capacity){
-                result[i] = (float) r_capacity / weights[i];
-                total_value += (int) (result[i] * profit[i]);
-                r_capacity = 0; 
-            }
-        } else {
-            break;
-        }
-    }
+    itemSort(items, n);
+    float total_value = fractionalKnapsack(items, n, capacity);
     
     printf("The Solution for the fractional Knapsack Problem: ");
-    printTabular(items,weights,profit,ratio,result,n);
-    printf("\nProfit of solution: %d\n",total_value);
+    printTabular(items, n);
+    printf("\nTotal Value: %.2f\n",total_value);
     return 0;
 }
