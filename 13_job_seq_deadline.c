@@ -27,7 +27,7 @@ int sequenceJobs(struct Job jobs[], int timeslots[], int n, int k){
     for (int i = 0; i < n; i++){
         //Find if there is a timeslot available before the deadline.
         int deadline = jobs[i].jDeadline;
-        for (int j = deadline; j >= 0 ; j--){
+        for (int j = deadline - 1; j >= 0 ; j--){
             if(j < k && timeslots[j] == -1){
                 totalProfit += jobs[i].jProfit;
                 timeslots[j] = jobs[i].jId;
@@ -46,7 +46,7 @@ int main(){
     for (int i = 0; i < n; i++) {
         printf("Job %d: ", i + 1);
         scanf("%d %d %d", &jobs[i].jId, &jobs[i].jProfit, &temp);
-        jobs[i].jDeadline = temp - 1;
+        jobs[i].jDeadline = temp;
     }
     int maxDeadline = 0;
     for (int i = 0; i < n; i++) {
@@ -54,13 +54,13 @@ int main(){
             maxDeadline = jobs[i].jDeadline;
     }
     int timeslots[maxDeadline + 1];
-    for (int i = 0; i < maxDeadline + 1; i++) {
+    for (int i = 0; i <= maxDeadline; i++) {
         timeslots[i] = -1;
     }
     jobSort(jobs, n);
-    int maxProfit = sequenceJobs(jobs, timeslots, n, maxDeadline + 1);
+    int maxProfit = sequenceJobs(jobs, timeslots, n, maxDeadline);
     printf("Scheduled Jobs: ");
-    for (int i = 0; i < maxDeadline + 1; i++) {
+    for (int i = 0; i <= maxDeadline; i++) {
         if (timeslots[i] != -1) {
             printf("J%d ", timeslots[i]);
         }
