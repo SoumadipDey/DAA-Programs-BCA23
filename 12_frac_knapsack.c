@@ -27,16 +27,14 @@ float fractionalKnapsack(struct Item items[], int n, int max_capacity){
     int capacity = max_capacity, i = 0;
     float totalValue = 0;
     while (i < n && capacity > 0){
-        if(capacity - items[i].itemWeight >= 0){ // No fraction needed
+        if(capacity >= items[i].itemWeight){ // No fraction needed
             capacity -= items[i].itemWeight;
             items[i].status = 1.0;
             totalValue += items[i].status * items[i].itemValue;
         } else {
-            if(capacity < items[i].itemWeight){ // Fraction needed
-                items[i].status = (float) capacity / items[i].itemWeight;
-                capacity = 0;
-                totalValue += items[i].status * items[i].itemValue;
-            }
+            items[i].status = (float) capacity / items[i].itemWeight;
+            capacity = 0;
+            totalValue += items[i].status * items[i].itemValue;
         }
         i++;
     }
