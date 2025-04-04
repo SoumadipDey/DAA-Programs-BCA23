@@ -20,5 +20,11 @@ The following programs are available:
 17. Prim's Minimum Spanning tree
 18. ~~Kruskal's Minimum Spanning tree.~~
 19. Dijkstra's Shortest Path
+20. ~~Bellman-Ford Algorithm.~~
+21. ~~0/1 Knapsack Problem.~~
+22. ~~Floyd-Warshall Algorithm.~~
+23. ~~N-Queens Problem.~~
+24. ~~Naive String Matching Algorithm~~
+25. ~~KMP String Matching Algorithm~~
 
 > More Programs Coming Soon
