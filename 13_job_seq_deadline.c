@@ -38,15 +38,15 @@ int sequenceJobs(struct Job jobs[], int timeslots[], int n, int k){
     return totalProfit;
 }
 int main(){
-    int n, temp;
+    int n;
     printf("Enter the number of jobs: ");
     scanf("%d", &n);
     struct Job jobs[n];
-    printf("Enter Job ID, Profit, and Deadline for each job:\n");
+    printf("Enter Profit, and Deadline for each job:\n");
     for (int i = 0; i < n; i++) {
         printf("Job %d: ", i + 1);
-        scanf("%d %d %d", &jobs[i].jId, &jobs[i].jProfit, &temp);
-        jobs[i].jDeadline = temp;
+        scanf("%d %d", &jobs[i].jProfit, &jobs[i].jDeadline);
+        jobs[i].jId = i + 1;
     }
     int maxDeadline = 0;
     for (int i = 0; i < n; i++) {

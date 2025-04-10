@@ -136,7 +136,7 @@ int main(){
         printf("Result of M1 x M2 : \n");
         int** crr = strassenMatMul(n,arr,brr);
         printMatrix(n,crr);
-        
+
     } else {
         printf("Dimension Not a power of 2!");
     }
