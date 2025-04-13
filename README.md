@@ -28,3 +28,5 @@ The following programs are available:
 25. ~~KMP String Matching Algorithm~~
 
 > More Programs Coming Soon
+
+Please be advised that in order to run the graph related programs you must also dowload the graph.c file as it contains the implementation of the graph logic and some helper functions.
