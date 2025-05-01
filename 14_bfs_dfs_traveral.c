@@ -1,4 +1,5 @@
 #include "graph.c"
+#include <string.h>
 
 void DFSTraverse(struct List** adjList, int start, int* visited){
     struct Node* curr = adjList[start]->head; // Check the first neighbour of the start node
@@ -14,6 +15,7 @@ void DFSTraverse(struct List** adjList, int start, int* visited){
 }
 void DFS(struct List** adjList,int V){
     int visited[V], counter = 1;
+    memset(visited, 0, sizeof(visited));
     for (int start = 0; start < V; start++){
         if (visited[start] != 1){
             printf("DFS Traversal of Component %d: ", counter);

@@ -31,10 +31,8 @@ int solveBinaryKnapsack(struct Item items[], int n, int maxCap, int dp[n + 1][ma
         if(dp[i][j] != dp[i - 1][j]){
             items[i].status = 1;
             j -= items[i].weight;
-            i -= 1;
-        } else{
-            i -= 1;
         }
+        i -= 1;
     }
     return dp[n][maxCap];
 }
@@ -62,5 +60,14 @@ int main(){
             printf("Item[%d] (W:%d V:%d) ", items[i].id, items[i].weight, items[i].value);
         }
     } printf("}\n");
+
+    printf("The DP Table: \n");
+    for (int i = 0; i <= n; i++){
+        for (int j = 0; j <= capacity; j++){
+            printf("%5d ", dp[i][j]);
+        }
+        printf("\n");    
+    }
+    
     return 0;
 }
