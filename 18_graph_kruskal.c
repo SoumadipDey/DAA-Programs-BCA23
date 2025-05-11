@@ -53,7 +53,9 @@ struct EdgeData createSortedEdgeList(struct List** adjList, int V, int E, int gr
 
 void kruskalMST(struct List** adjList, int V, int E, int graph_type) {
     int component[V], edge_count = 0, cost = 0 , srcComp, dstComp;
-    for (int i = 0; i < V; i++){ component[i] = i;}
+    for (int i = 0; i < V; i++){ // Initially every vertex is its own component
+        component[i] = i;
+    }
     // Creating a sorted edge list
     struct EdgeData edgeData = createSortedEdgeList(adjList, V, E, graph_type);
     struct Edge* edgeList = edgeData.edgeList;
