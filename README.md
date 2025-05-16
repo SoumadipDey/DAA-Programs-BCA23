@@ -22,7 +22,7 @@ The following programs are available:
 19. Dijkstra's Shortest Path
 20. ~~Bellman-Ford Algorithm.~~
 21. 0/1 Knapsack Problem.
-22. ~~Floyd-Warshall Algorithm.~~
+22. Floyd-Warshall Algorithm.
 23. ~~N-Queens Problem.~~
 24. ~~Naive String Matching Algorithm~~
 25. ~~KMP String Matching Algorithm~~

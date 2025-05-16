@@ -16,8 +16,7 @@ struct EdgeData createSortedEdgeList(struct List** adjList, int V, int E, int gr
     struct EdgeData edgeData;
     if(graph_type != 0){ 
         edgeList = (struct Edge*)malloc(E * sizeof(struct Edge));
-        edgeData.size = E;
-        
+        edgeData.size = E;  
     } else { 
         edgeList = (struct Edge*)malloc(2 * E * sizeof(struct Edge));
         edgeData.size = 2 * E;
