@@ -1,5 +1,3 @@
-from queue import Queue
-
 def dfs(graph, node, visited):
     if visited[node]:
         return
@@ -11,24 +9,28 @@ def dfs(graph, node, visited):
                 dfs(graph, neighbour, visited)
 
 def bfs(graph, start):
-    visited = [0] * len(graph)
-    queue = Queue()
-    queue.put(start)
+    visited = [False] * len(graph)
+    queue = []
+    queue.append(start)
 
-    while not queue.empty():
-        curr_node = queue.get()
+    while not len(queue)==0:
+        curr_node = queue.pop(0)
         visited[curr_node] = True
         print(f"Visiting node {curr_node}")
         for neighbour in graph[curr_node]:
-            if not visited[neighbour]:
-                queue.put(neighbour)
+            if not visited[neighbour] and neighbour not in queue:
+                queue.append(neighbour)
         
 
 graph = {
     0: [1, 2],
-    1: [0, 3],
-    2: [0],
-    3: [1]
+    1: [0, 3, 4],
+    2: [0, 5, 6],
+    3: [1],
+    4: [1, 7],
+    5: [2, 7],
+    6: [2],
+    7: [4, 5]
 }
 
 visited = [0] * len(graph)
