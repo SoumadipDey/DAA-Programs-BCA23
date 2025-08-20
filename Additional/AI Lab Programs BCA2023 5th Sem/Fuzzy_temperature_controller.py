@@ -18,8 +18,8 @@ def membershipFunction(error):
 
 DEVICE_ACTIONS = {
     "Cooling": ("AC", 100),      # Max cooling capacity
-    "Heating": ("Heater", 100),   # Max heating capacity
-    "Neutral": ("Off", 0)         # No action
+    "Heating": ("Heater", 100),  # Max heating capacity
+    "Neutral": ("Nothing", 0)    # No action
 }
 
 def fuzzyDecision(target_temp, current_temp):
@@ -40,8 +40,8 @@ def fuzzyDecision(target_temp, current_temp):
     print("Fuzzy memberships:", memberships)
     print(f"{device} ON at {power}% power")
 
-target_temps = [20, 20, 30, -20, 23] # In Degree C
-current_temps = [28, 12, 25, 15, 32] # In Degree C
+target_temps = [20, 20, 30, -20, 23, 20] # In Degree C
+current_temps = [28, 12, 25, 15, 32, 23] # In Degree C
 
 print("Testing the fuzzy controller for a variety of situations:")
 for target, curr in zip(target_temps,current_temps):
