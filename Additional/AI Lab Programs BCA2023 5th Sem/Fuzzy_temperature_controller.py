@@ -24,12 +24,13 @@ DEVICE_ACTIONS = {
 
 def fuzzyDecision(target_temp, current_temp):
     error = target_temp - current_temp
+    
+    #Fuzzification
     memberships = membershipFunction(error)
 
-    # Pick the fuzzy set with maximum membership
+    #De-fuzzification using maximum membership method
     strongest_label = max(memberships, key=memberships.get)
-    strength = memberships[strongest_label]
-
+    strength = memberships[strongest_label]    
     device, max_power = DEVICE_ACTIONS[strongest_label]
     power = round(strength * max_power, 1)  # scale with membership degree
 
@@ -39,8 +40,8 @@ def fuzzyDecision(target_temp, current_temp):
     print("Fuzzy memberships:", memberships)
     print(f"{device} ON at {power}% power")
 
-target_temps = [20, 20, 30, -20, 23]
-current_temps = [28, 12, 25, 15, 32]
+target_temps = [20, 20, 30, -20, 23] # In Degree C
+current_temps = [28, 12, 25, 15, 32] # In Degree C
 
 print("Testing the fuzzy controller for a variety of situations:")
 for target, curr in zip(target_temps,current_temps):
