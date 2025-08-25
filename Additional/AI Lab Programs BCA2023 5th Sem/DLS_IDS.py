@@ -45,8 +45,8 @@ graph = {
     11: [8]
 }
 
-n_nodes = 12
+n_nodes = len(graph)
 start = 0
-goal = 12
+goal = 56
 
 print(f"The result of running IDS on the graph for Start: {start}, Goal: {goal} is: {IDS(graph,start,goal,n_nodes)}")
